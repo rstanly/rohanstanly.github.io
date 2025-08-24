@@ -1,0 +1,125 @@
+---
+title: "Customer Review Analysis"
+author: "Rohan Stanly Keecheril"
+format: html
+editor: visual
+---
+
+# Customer Review Analysis
+
+## 1. Introduction
+
+Customer reviews are important to see the feedback from customers to improve the business and take better decisions.
+
+We use text mining to extract the information from the customer reviews.
+
+## 2. Data Pre-Processing
+
+We have to convert the unstructured data to structured data in order to apply descriptive statistics. In order to do this we have to remove uppercase letters, punctuation, numbers, and extra spaces. These need to be cleaned to ensure better analysis.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+reviews<-read.csv("C:/Users/rstan/Desktop/MBA/T1/Introduction to Business Analytics/R docs/reviews.csv",header= TRUE)
+texts<-reviews$Review # Selecting the text coloumn
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+# Calling the required Libraries
+library(tm) # Text mining library
+library(slam)
+library(proxy)
+library(wordcloud)
+library(RColorBrewer)
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+corpus <- VCorpus(VectorSource(texts)) # Creating the corpus
+
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+# Processing the text
+corpus <- tm_map(corpus, content_transformer(tolower)) # Lower case
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeNumbers)
+corpus <- tm_map(corpus, removeWords, stopwords("en")) #To get root words
+corpus <- tm_map(corpus, stripWhitespace)
+```
+
+## 3. Document Term Matrix
+
+We create a Document Term Matrix, where each row represents a document (review) and each column represents a term. The entries show the frequency of each term in each document.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+dtm <- DocumentTermMatrix(corpus) # Create Document Matrix
+inspect(dtm)
+```
+
+## 4. Finding the Similarities with Cosine Distance
+
+To measure how similar or dissimilar reviews are, we use Cosine Distance. Cosine similarity values close to 1 indicate very similar reviews, while values near 0 show dissimilarity. We convert the similarity into a distance metric for clustering.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+#Calculating the cosine distances to find smilar and disimilar reviews
+numerator <- crossprod_simple_triplet_matrix(dtm)
+denominator <- sqrt(col_sums(dtm^2)) %*% t(sqrt(col_sums(dtm^2)))
+cosine_similarity <- numerator / denominator
+cosine_distance <- 1 - cosine_similarity
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+# Distance matrix
+cosine_dist_matrix <- as.matrix(cosine_distance)
+#print(round(cosine_dist_matrix, 2))
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+#Visulizing the distance maatrix
+
+windows()
+heatmap(cosine_dist_matrix, col = colorRampPalette(c("white", "steelblue"))(100))
+
+```
+
+## 5. Clustering
+
+We apply Hierarchical Clustering using cosine distance to group similar documents together. The dendrogram below shows clusters of reviews based on their content.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+#clustering of the words
+
+dtm_matrix <- as.matrix(dtm)  # Convert sparse DTM to full matrix
+dist_obj <- proxy::dist(dtm_matrix, method = "cosine")  # Proper cosine distance
+
+hclust_obj <- hclust(dist_obj, method = "ward.D2")
+plot(hclust_obj, labels = paste("Doc", 1:nrow(dtm_matrix)), main = "Document Clustering")
+
+```
+
+## 6. Word Cloud
+
+We make a word cloud to visualize the most frequent terms across all documents. Larger words indicate higher frequency, giving a quick overview of the most used words in the reviews.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+#Creating a word cloud
+m <- as.matrix(dtm)
+v <- sort(colSums(m), decreasing = TRUE)
+d <- data.frame(word = names(v), freq = v)
+
+
+set.seed(123)  # for reproducibility
+wordcloud(
+  words = d$word,
+  freq = d$freq,
+  min.freq = 1,
+  max.words = 100,
+  random.order = FALSE,
+  rot.per = 0.35,
+  colors = brewer.pal(8, "Dark2")
+)
+```
+
+The word cloud shows the words that appeared the most in the reviews which are - pizza, food, good, great, sauce, and chicken mean they were mentioned often, which tells us that these are the main things customers talk about. It is clear that pizza and Italian food are the main highlights. Positive words like love, best, fresh, and delicious show that customers mostly have a good opinion about the food. At the same time, words like service, prices, and waiter show that people also care about the overall dining experience, not just the taste. A few words like slow or prices point out areas where customers may not be fully satisfied.
+
+## 7. Conclusion
+
+It is clear that pizza and Italian dishes are the main focus of customer reviews. Most people use positive words like good, great, fresh, and love, which shows that the overall response is positive. Customers are happy with the food, especially pizza, but also talk about service and prices, which means these factors are important too. The restaurant has a good image, although some words like slow and filthy do come up it might a angry customer or an outlier. The restaurant should keep doing what its doing in order to get more positive reviews.
