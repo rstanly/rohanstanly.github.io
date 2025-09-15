@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rohan Stanly Keecheril">
+
+<title>ESG Performance Growth of Inidan Companies</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="FInal Project_files/libs/clipboard/clipboard.min.js"></script>
+<script src="FInal Project_files/libs/quarto-html/quarto.js"></script>
+<script src="FInal Project_files/libs/quarto-html/popper.min.js"></script>
+<script src="FInal Project_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="FInal Project_files/libs/quarto-html/anchor.min.js"></script>
+<link href="FInal Project_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="FInal Project_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="FInal Project_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="FInal Project_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="FInal Project_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ESG Performance Growth of Inidan Companies</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Rohan Stanly Keecheril </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="regression-analysis-of-esg-factors-and-financial-performance-in-indian-companies" class="level1">
+<h1>Regression Analysis of ESG Factors and Financial Performance in Indian Companies</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">1. Introduction</h2>
+<p>Environment, Social and Governance (ESG) factors are of great importance in assessing the performance of a company in our current times. Investors have moved on from traditional financial Indicators and now look into the sustainability factors like Carbon Emissions, Energy Consumption, Employee well being and Various other factors in order to see how the company is performing.</p>
+<p>This report is focused on analyzing the impact of ESG factors like Carbon Emissions, Energy Consumption and Employee Turnover rate has impact on a companies profitability ratios like Return on Assets and Return on Equity. This report also takes into consideration the location and industry of the company to check if it has any impact on the companies profitability.</p>
+</section>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration">2. Data Exploration</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     Sl.no       Name Of the Company      Year          CEO           
+ Min.   : 1.00   Length:50           Min.   :2021   Length:50         
+ 1st Qu.:13.25   Class :character    1st Qu.:2022   Class :character  
+ Median :25.50   Mode  :character    Median :2023   Mode  :character  
+ Mean   :25.50                       Mean   :2023                     
+ 3rd Qu.:37.75                       3rd Qu.:2024                     
+ Max.   :50.00                       Max.   :2025                     
+    Gender               CE                  EC               ETOR      
+ Length:50          Length:50          Min.   :   5338   Min.   : 9.00  
+ Class :character   Class :character   1st Qu.: 150006   1st Qu.:11.12  
+ Mode  :character   Mode  :character   Median : 491429   Median :14.25  
+                                       Mean   :1514078   Mean   :16.94  
+                                       3rd Qu.:1870145   3rd Qu.:21.75  
+                                       Max.   :9619064   Max.   :38.00  
+      ROA                 ROE              Industry           Location        
+ Min.   :-788.0000   Min.   :-112.2900   Length:50          Length:50         
+ 1st Qu.:   0.3675   1st Qu.:   0.6375   Class :character   Class :character  
+ Median :   4.9000   Median :   8.5500   Mode  :character   Mode  :character  
+ Mean   :  -4.7306   Mean   :   4.2650                                        
+ 3rd Qu.:  10.6975   3rd Qu.:  19.8750                                        
+ Max.   : 347.0000   Max.   :  31.2400                                        </code></pre>
+</div>
+</div>
+<section id="preparing-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="preparing-the-data">1.1 Preparing the Data</h3>
+<p>The data used for the regression is first cleaned in order to avoid possible errors when doing regression. The data like Carbon Emissions, Energy Consumption, Employee Turn over rate, Return on Assets and Return on Equity is made to be numeric in case it is not and the missing values are removed from the data set.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 12
+  Sl.no `Name Of the Company`  Year CEO    Gender CE        EC  ETOR   ROA   ROE
+  &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     1 Coforge                2024 Sudhi… Male   14644 47938   11.5  6.82  12.3
+2     2 Coforge                2025 Sudhi… Male   37445 70087   12.1  7.48  12.9
+3     3 Foesco                 2021 Prasa… Male   4761  31789.  18   11.1   15.7
+4     4 Foesco                 2022 Prasa… Male   4844  29654.  13   13.3   19.2
+5     5 Foesco                 2023 Prasa… Male   5817  55652.  10   17.4   25.5
+6     6 Foesco                 2024 Prasa… Male   5912  54077   10   15.1   21.3
+# ℹ 2 more variables: Industry &lt;chr&gt;, Location &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="regression-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="regression-analysis">3. Regression Analysis</h2>
+<section id="regression" class="level3">
+<h3 class="anchored" data-anchor-id="regression">3.1 Regression</h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROA ~ EC + CE + ETOR, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-758.29   -3.22    6.05   23.54  374.66 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  2.572e+01  5.357e+01   0.480    0.634
+EC           1.347e-06  1.465e-05   0.092    0.927
+CE           1.954e-05  1.506e-04   0.130    0.897
+ETOR        -2.137e+00  2.848e+00  -0.750    0.457
+
+Residual standard error: 132 on 42 degrees of freedom
+Multiple R-squared:  0.0161,    Adjusted R-squared:  -0.05418 
+F-statistic: 0.2291 on 3 and 42 DF,  p-value: 0.8756</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROE ~ EC + CE + ETOR, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-113.032   -5.768    4.740   15.099   30.157 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  8.819e-01  1.010e+01   0.087    0.931
+EC          -8.490e-07  2.762e-06  -0.307    0.760
+CE           2.717e-05  2.840e-05   0.957    0.344
+ETOR        -3.511e-02  5.370e-01  -0.065    0.948
+
+Residual standard error: 24.89 on 42 degrees of freedom
+Multiple R-squared:  0.03782,   Adjusted R-squared:  -0.03091 
+F-statistic: 0.5503 on 3 and 42 DF,  p-value: 0.6507</code></pre>
+</div>
+</div>
+<p><strong>ROA model</strong> (ROA ~ EC + CE + ETOR<code>)</code></p>
+<p><strong>Intercept = 25.72</strong><br>
+When EC, CE, and ETOR are zero (hypothetically), the model predicts ROA ≈ 25.7.</p>
+<p><strong>EC (Energy Consumption)</strong><br>
+Coefficient: 1.35e-06 → practically zero.<br>
+p-value = 0.927 → <em>not significant</em>.</p>
+<p><strong>CE (Carbon Emission)</strong><br>
+Coefficient: 1.95e-05 → almost zero.<br>
+p-value = 0.897 → <em>not significant</em>.</p>
+<p><strong>ETOR (Employee Turnover Rate)</strong><br>
+Coefficient: -2.137 → negative relationship with ROA (higher turnover reduces ROA).<br>
+But p-value = 0.457 → <em>not statistically significant</em>.</p>
+<p><strong>R² = 0.016 (1.6%)</strong><br>
+The model explains <em>almost none</em> of the variation in ROA.<br>
+Adjusted R² is negative (-0.05), meaning the predictors don’t improve prediction compared to just using the mean.</p>
+<p><strong>ROE model</strong> (ROE ~ EC + CE + ETOR)</p>
+<p><strong>Intercept = 0.88</strong> → Baseline prediction of ROE when predictors are zero.</p>
+<p><strong>EC</strong><br>
+Coefficient: -8.49e-07 → essentially zero.<br>
+p-value = 0.760 → <em>not significant</em>.</p>
+<p><strong>CE</strong><br>
+Coefficient: 2.72e-05 → almost zero.<br>
+p-value = 0.344 → <em>not significant</em>.</p>
+<p><strong>ETOR</strong><br>
+Coefficient: -0.035 → tiny negative relationship.<br>
+p-value = 0.948 → <em>not significant</em>.</p>
+<p><strong>R² = 0.038 (3.8%)</strong><br>
+→ Model explains <em>almost none</em> of the variation in ROE.<br>
+→ Adjusted R² negative (-0.03).</p>
+<p>We do log transformations were applied to EC and CE to reduce skewness and interpret effects in terms of proportional changes</p>
+</section>
+<section id="applying-log-transformations" class="level3">
+<h3 class="anchored" data-anchor-id="applying-log-transformations">3.2 Applying Log Transformations</h3>
+<p><strong>Scale variables</strong> (log-transform EC and CE, since their magnitudes are huge compared to ROA/ROE). It also helps reduce skewness in the data.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROA ~ log_EC + log_CE + ETOR, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-752.84   -4.92    8.42   21.19  385.80 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  -24.227    140.823  -0.172    0.864
+log_EC         2.350     24.234   0.097    0.923
+log_CE         2.085     27.519   0.076    0.940
+ETOR          -2.006      2.870  -0.699    0.488
+
+Residual standard error: 132 on 42 degrees of freedom
+Multiple R-squared:  0.01687,   Adjusted R-squared:  -0.05335 
+F-statistic: 0.2402 on 3 and 42 DF,  p-value: 0.8678</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROE ~ log_EC + log_CE + ETOR, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-109.781   -8.932    0.676   13.075   30.055 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept) -18.4303    24.8515  -0.742   0.4624  
+log_EC       -8.9042     4.2766  -2.082   0.0435 *
+log_CE       12.9352     4.8563   2.664   0.0109 *
+ETOR         -0.1001     0.5064  -0.198   0.8442  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 23.29 on 42 degrees of freedom
+Multiple R-squared:  0.1577,    Adjusted R-squared:  0.09751 
+F-statistic: 2.621 on 3 and 42 DF,  p-value: 0.06319</code></pre>
+</div>
+</div>
+<p><strong>Model 1: ROA as Dependent Variable</strong></p>
+<p>The regression of ROA on log_EC, log_CE, and ETOR produced no statistically significant coefficients.</p>
+<p>Both R² (0.0169) and Adjusted R² (-0.053) are very low, meaning the model explains almost none of the variation in ROA.</p>
+<p>The overall F-test (p = 0.8678) indicates the model is not significant.</p>
+<p>Conclusion: ESG factors (Energy Consumption, Carbon Emissions, and Employee Turnover Rate) do not appear to influence Return on Assets in this dataset.</p>
+<p><strong>Model 2: ROE as Dependent Variable</strong></p>
+<p>The regression of ROE on log_EC, log_CE, and ETOR shows statistically significant coefficients for:</p>
+<p>log_EC (p = 0.0435): Higher energy consumption is associated with lower ROE.</p>
+<p>log_CE (p = 0.0109): Higher carbon emissions are associated with higher ROE.</p>
+<p>ETOR is not significant (p = 0.8442).</p>
+<p>The model has R² = 0.158 and Adjusted R² = 0.098, meaning about 10–16% of ROE variation is explained.</p>
+<p>The F-test (p = 0.0632) is just above the 0.05 threshold, suggesting the overall model is marginally significant.</p>
+<p>Conclusion: ESG factors (particularly energy use and carbon emissions) have some influence on Return on Equity, though the explanatory power remains modest.</p>
+</section>
+<section id="adding-dummy-variables" class="level3">
+<h3 class="anchored" data-anchor-id="adding-dummy-variables"><strong>3.3 Adding Dummy Variables</strong></h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROA ~ log_EC + log_CE + ETOR + Industry, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-517.13   -5.62   -0.01    5.66  259.92 
+
+Coefficients:
+                                      Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                            -3.3460   263.3964  -0.013    0.990
+log_EC                                  1.6575    39.0911   0.042    0.966
+log_CE                                 -1.8372    40.9107  -0.045    0.964
+ETOR                                   -0.3855     3.1519  -0.122    0.903
+IndustryAuto Components &amp; Equipments   18.5371   129.5437   0.143    0.887
+IndustryChemicals                      14.4205   112.5295   0.128    0.899
+IndustryFood Products                  14.6098   118.8290   0.123    0.903
+IndustryGeoSpatial                    128.4651   166.9763   0.769    0.447
+IndustryHealthcare                     13.6087   141.7313   0.096    0.924
+IndustryInformation Technology         15.3514   175.4637   0.087    0.931
+IndustryMedia and Entertainment      -258.8301   159.4518  -1.623    0.114
+IndustryPharmaceuticals                11.9466   123.1374   0.097    0.923
+IndustrySolar Modules                 -16.2892   136.1633  -0.120    0.906
+IndustrySpecialty Chemicals            19.7509   178.7518   0.110    0.913
+
+Residual standard error: 122.7 on 32 degrees of freedom
+Multiple R-squared:  0.3522,    Adjusted R-squared:  0.08899 
+F-statistic: 1.338 on 13 and 32 DF,  p-value: 0.243</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROE ~ log_EC + log_CE + ETOR + Industry, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-49.991  -7.931   0.386   8.184  49.991 
+
+Coefficients:
+                                     Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)                          -34.3967    35.7387  -0.962  0.34304   
+log_EC                                -0.6944     5.3041  -0.131  0.89665   
+log_CE                                 1.5785     5.5509   0.284  0.77796   
+ETOR                                  -0.3816     0.4277  -0.892  0.37896   
+IndustryAuto Components &amp; Equipments  47.0711    17.5770   2.678  0.01159 * 
+IndustryChemicals                     44.1252    15.2685   2.890  0.00686 **
+IndustryFood Products                 48.3783    16.1232   3.001  0.00519 **
+IndustryGeoSpatial                    42.6627    22.6561   1.883  0.06881 . 
+IndustryHealthcare                    38.9641    19.2307   2.026  0.05115 . 
+IndustryInformation Technology        43.2739    23.8077   1.818  0.07849 . 
+IndustryMedia and Entertainment       11.4854    21.6351   0.531  0.59917   
+IndustryPharmaceuticals               39.7896    16.7078   2.381  0.02336 * 
+IndustrySolar Modules                -30.4659    18.4752  -1.649  0.10893   
+IndustrySpecialty Chemicals           50.7567    24.2538   2.093  0.04439 * 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 16.65 on 32 degrees of freedom
+Multiple R-squared:  0.6719,    Adjusted R-squared:  0.5386 
+F-statistic:  5.04 on 13 and 32 DF,  p-value: 9.449e-05</code></pre>
+</div>
+</div>
+<p><strong>Model 1: ROA as Dependent Variable</strong></p>
+<p>Predictors: log_EC, log_CE, ETOR, Industry.</p>
+<p>R² = 0.352 (adjusted R² = 0.089), meaning the model explains about 35% of ROA variation, but much of this may be due to noise since adjusted R² is low.</p>
+<p>None of the ESG variables (log_EC, log_CE, ETOR) are statistically significant.</p>
+<p>None of the Industry categories are significant at the 5% level.</p>
+<p>The overall F-test (p = 0.243) shows the model is not statistically significant.</p>
+<p>Conclusion: ROA does not appear to be influenced by ESG factors or industry classification in this dataset.</p>
+<p><strong>Model 2: ROE as Dependent Variable</strong></p>
+<p>Predictors: log_EC, log_CE, ETOR, Industry.</p>
+<p>R² = 0.672 (adjusted R² = 0.539), meaning the model explains ~67% of ROE variation, which is substantial.</p>
+<p>ESG factors (log_EC, log_CE, ETOR) are not significant.</p>
+<p>Several Industry effects are significant:</p>
+<p>Auto Components &amp; Equipment (p = 0.0116)</p>
+<p>Chemicals (p = 0.0069)</p>
+<p>Food Products (p = 0.0052)</p>
+<p>Pharmaceuticals (p = 0.0234)</p>
+<p>Specialty Chemicals (p = 0.0444)</p>
+<p>Healthcare (borderline, p = 0.0511)</p>
+<p>Belonging to these industries is strongly associated with higher ROE compared to the baseline industry.</p>
+<p>The overall F-test (p &lt; 0.001) shows the model is highly significant.</p>
+<p>ROE is strongly influenced by industry classification, while ESG factors themselves (energy, carbon, turnover) are not direct drivers.</p>
+<p>ROA models: No significant results; neither ESG factors nor industry classification affect firm-level ROA.</p>
+<p>ROE models: Strong explanatory power (67% of variance explained). ESG factors are not significant predictors, but industry effects are highly significant, especially in manufacturing-related industries (Chemicals, Food Products, Pharmaceuticals, etc.).</p>
+</section>
+<section id="regression-when-ec-and-ce-are-taken-separately" class="level3">
+<h3 class="anchored" data-anchor-id="regression-when-ec-and-ce-are-taken-separately">3.4 Regression when EC and CE are taken Separately</h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROA ~ log_EC + ETOR + Industry, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-517.17   -5.36    0.13    5.49  259.93 
+
+Coefficients:
+                                       Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)                             0.95132  241.65955   0.004   0.9969  
+log_EC                                  0.06185   16.05084   0.004   0.9969  
+ETOR                                   -0.36967    3.08437  -0.120   0.9053  
+IndustryAuto Components &amp; Equipments   14.41515   90.02172   0.160   0.8738  
+IndustryChemicals                      11.02123   81.99647   0.134   0.8939  
+IndustryFood Products                  11.34402   92.54601   0.123   0.9032  
+IndustryGeoSpatial                    124.71066  142.33633   0.876   0.3873  
+IndustryHealthcare                      9.10499   98.62317   0.092   0.9270  
+IndustryInformation Technology          9.88245  124.39441   0.079   0.9372  
+IndustryMedia and Entertainment      -262.79019  130.82348  -2.009   0.0528 .
+IndustryPharmaceuticals                 8.13866   87.92845   0.093   0.9268  
+IndustrySolar Modules                 -19.19759  117.94965  -0.163   0.8717  
+IndustrySpecialty Chemicals            16.15158  157.34039   0.103   0.9189  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 120.9 on 33 degrees of freedom
+Multiple R-squared:  0.3521,    Adjusted R-squared:  0.1165 
+F-statistic: 1.495 on 12 and 33 DF,  p-value: 0.1758</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROA ~ log_CE + ETOR + Industry, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-517.18   -5.67    0.26    5.55  259.91 
+
+Coefficients:
+                                      Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)                             4.4512   185.6982   0.024    0.981  
+log_CE                                 -0.2606    16.7979  -0.016    0.988  
+ETOR                                   -0.3650     3.0671  -0.119    0.906  
+IndustryAuto Components &amp; Equipments   14.6478    90.0790   0.163    0.872  
+IndustryChemicals                      11.3123    84.0748   0.135    0.894  
+IndustryFood Products                  11.2275    86.7312   0.129    0.898  
+IndustryGeoSpatial                    123.4913   117.0181   1.055    0.299  
+IndustryHealthcare                      9.4247   100.1856   0.094    0.926  
+IndustryInformation Technology          9.6275   110.3759   0.087    0.931  
+IndustryMedia and Entertainment      -263.5951   111.3913  -2.366    0.024 *
+IndustryPharmaceuticals                 8.5079    91.2440   0.093    0.926  
+IndustrySolar Modules                 -19.5339   110.9066  -0.176    0.861  
+IndustrySpecialty Chemicals            15.4155   144.3833   0.107    0.916  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 120.9 on 33 degrees of freedom
+Multiple R-squared:  0.3521,    Adjusted R-squared:  0.1166 
+F-statistic: 1.495 on 12 and 33 DF,  p-value: 0.1757</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROA ~ log_CE + ETOR + Industry, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-517.18   -5.67    0.26    5.55  259.91 
+
+Coefficients:
+                                      Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)                             4.4512   185.6982   0.024    0.981  
+log_CE                                 -0.2606    16.7979  -0.016    0.988  
+ETOR                                   -0.3650     3.0671  -0.119    0.906  
+IndustryAuto Components &amp; Equipments   14.6478    90.0790   0.163    0.872  
+IndustryChemicals                      11.3123    84.0748   0.135    0.894  
+IndustryFood Products                  11.2275    86.7312   0.129    0.898  
+IndustryGeoSpatial                    123.4913   117.0181   1.055    0.299  
+IndustryHealthcare                      9.4247   100.1856   0.094    0.926  
+IndustryInformation Technology          9.6275   110.3759   0.087    0.931  
+IndustryMedia and Entertainment      -263.5951   111.3913  -2.366    0.024 *
+IndustryPharmaceuticals                 8.5079    91.2440   0.093    0.926  
+IndustrySolar Modules                 -19.5339   110.9066  -0.176    0.861  
+IndustrySpecialty Chemicals            15.4155   144.3833   0.107    0.916  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 120.9 on 33 degrees of freedom
+Multiple R-squared:  0.3521,    Adjusted R-squared:  0.1166 
+F-statistic: 1.495 on 12 and 33 DF,  p-value: 0.1757</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROA ~ log_EC + ETOR + Industry, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-517.17   -5.36    0.13    5.49  259.93 
+
+Coefficients:
+                                       Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)                             0.95132  241.65955   0.004   0.9969  
+log_EC                                  0.06185   16.05084   0.004   0.9969  
+ETOR                                   -0.36967    3.08437  -0.120   0.9053  
+IndustryAuto Components &amp; Equipments   14.41515   90.02172   0.160   0.8738  
+IndustryChemicals                      11.02123   81.99647   0.134   0.8939  
+IndustryFood Products                  11.34402   92.54601   0.123   0.9032  
+IndustryGeoSpatial                    124.71066  142.33633   0.876   0.3873  
+IndustryHealthcare                      9.10499   98.62317   0.092   0.9270  
+IndustryInformation Technology          9.88245  124.39441   0.079   0.9372  
+IndustryMedia and Entertainment      -262.79019  130.82348  -2.009   0.0528 .
+IndustryPharmaceuticals                 8.13866   87.92845   0.093   0.9268  
+IndustrySolar Modules                 -19.19759  117.94965  -0.163   0.8717  
+IndustrySpecialty Chemicals            16.15158  157.34039   0.103   0.9189  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 120.9 on 33 degrees of freedom
+Multiple R-squared:  0.3521,    Adjusted R-squared:  0.1165 
+F-statistic: 1.495 on 12 and 33 DF,  p-value: 0.1758</code></pre>
+</div>
+</div>
+<p><strong>For ROA models</strong></p>
+<p>log_EC (Equity Capital) → not significant.</p>
+<p>log_CE (Carbon Emissions) → not significant.</p>
+<p>ETOR → not significant.</p>
+<p>Only Industry: Media &amp; Entertainment has a strong negative effect on ROA (≈ –263, marginally significant at 5–10%).</p>
+<p>Overall model fit is weak (Adj. R² ~0.12).</p>
+<p>Neither financial structure (EC) nor sustainability metric (CE) is a clear driver of ROA in your sample.</p>
+<p><strong>For ROE models</strong></p>
+<p>log_EC → negative and significant (p ≈ 0.04).</p>
+<p>Higher equity capital lowers ROE (consistent with dilution of returns when more equity is used).</p>
+<p>log_CE → positive and significant (p ≈ 0.01).</p>
+<p><strong>Higher carbon emissions are associated with higher ROE.</strong></p>
+<p>This could reflect that emission-heavy firms (like manufacturing/chemicals) are more capital-intensive and currently more profitable, even though it raises sustainability concerns.</p>
+<p>ETOR → not significant.</p>
+<p>Adj. R² ≈ 0.10 → explanatory power is modest but better than the ROA models.</p>
+</section>
+<section id="regression-with-esg-factors-and-industry-location" class="level3">
+<h3 class="anchored" data-anchor-id="regression-with-esg-factors-and-industry-location">3.5 Regression with ESG factors and Industry + Location</h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROA ~ log_EC + log_CE + ETOR + Industry + Location, 
+    data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-514.89   -2.91    0.34    2.61  260.39 
+
+Coefficients: (2 not defined because of singularities)
+                                      Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                           -69.6764   999.9250  -0.070    0.945
+log_EC                                  5.2584    80.1012   0.066    0.948
+log_CE                                  0.7786    45.9513   0.017    0.987
+ETOR                                   -1.5314     6.6905  -0.229    0.821
+IndustryAuto Components &amp; Equipments   23.9206   205.9705   0.116    0.908
+IndustryChemicals                     -12.4162   185.5482  -0.067    0.947
+IndustryFood Products                  19.0702   211.2351   0.090    0.929
+IndustryGeoSpatial                    121.4591   298.6864   0.407    0.687
+IndustryHealthcare                     23.7167   180.8846   0.131    0.897
+IndustryInformation Technology          4.0859   426.6208   0.010    0.992
+IndustryMedia and Entertainment      -271.2404   238.4349  -1.138    0.265
+IndustryPharmaceuticals               -10.5331   173.0149  -0.061    0.952
+IndustrySolar Modules                  -5.1682   229.8417  -0.022    0.982
+IndustrySpecialty Chemicals            -0.7564   245.2577  -0.003    0.998
+LocationGujarat                        15.3420   116.9973   0.131    0.897
+LocationHaryana                             NA         NA      NA       NA
+LocationMaharashtra                    47.9819   283.0247   0.170    0.867
+LocationNew Delhi                      -9.7988   157.9310  -0.062    0.951
+LocationUttar Pradesh                  25.3060   205.4399   0.123    0.903
+LocationWest Bengal                         NA         NA      NA       NA
+
+Residual standard error: 131 on 28 degrees of freedom
+Multiple R-squared:  0.3537,    Adjusted R-squared:  -0.03868 
+F-statistic: 0.9014 on 17 and 28 DF,  p-value: 0.579</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ROE ~ log_EC + log_CE + ETOR + Industry + Location, 
+    data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-49.807  -3.892   1.060   3.218  49.807 
+
+Coefficients: (2 not defined because of singularities)
+                                      Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)                          170.29074  110.85170   1.536  0.13571   
+log_EC                               -16.12400    8.88002  -1.816  0.08013 . 
+log_CE                                 3.69976    5.09417   0.726  0.47370   
+ETOR                                  -0.57868    0.74171  -0.780  0.44182   
+IndustryAuto Components &amp; Equipments  11.44882   22.83390   0.501  0.62001   
+IndustryChemicals                     -0.05161   20.56988  -0.003  0.99802   
+IndustryFood Products                  0.90826   23.41753   0.039  0.96934   
+IndustryGeoSpatial                   -36.56889   33.11238  -1.104  0.27883   
+IndustryHealthcare                    24.00097   20.05287   1.197  0.24139   
+IndustryInformation Technology       -74.86514   47.29519  -1.583  0.12467   
+IndustryMedia and Entertainment      -48.37405   26.43290  -1.830  0.07791 . 
+IndustryPharmaceuticals               11.17926   19.18043   0.583  0.56466   
+IndustrySolar Modules                -69.13411   25.48025  -2.713  0.01127 * 
+IndustrySpecialty Chemicals           -6.27754   27.18927  -0.231  0.81908   
+LocationGujarat                       37.96342   12.97032   2.927  0.00672 **
+LocationHaryana                             NA         NA      NA       NA   
+LocationMaharashtra                   -2.11204   31.37612  -0.067  0.94681   
+LocationNew Delhi                     -2.21146   17.50824  -0.126  0.90039   
+LocationUttar Pradesh                 63.66017   22.77507   2.795  0.00926 **
+LocationWest Bengal                         NA         NA      NA       NA   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 14.53 on 28 degrees of freedom
+Multiple R-squared:  0.7815,    Adjusted R-squared:  0.6488 
+F-statistic:  5.89 on 17 and 28 DF,  p-value: 2.007e-05</code></pre>
+</div>
+</div>
+<p><strong>ROA Model (with EC, CE, ETOR, Industry, Location)</strong></p>
+<p>Multiple R² = 0.35, but Adjusted R² = –0.038 → the model explains almost nothing once we account for predictors.</p>
+<p>F-test p = 0.579 → not significant.</p>
+<p>Coefficients:</p>
+<p>None of the predictors are significant (p &gt; 0.05).</p>
+<p>Conclusion (ROA): → No strong drivers of ROA detected in this model. ROA appears largely unexplained by EC, CE, ETOR, industry, or location in this dataset.</p>
+<p><strong>ROE Model (EC, CE, ETOR, Industry, Location)</strong></p>
+<p>Strong model (Adj. R² ≈ 0.65, p &lt; 0.001).</p>
+<p>Energy consumption (EC) has a negative effect on ROE (p ≈ 0.08) which means <strong>higher EC reduces equity profitability, suggesting energy inefficiency lowers returns.</strong></p>
+<p>Carbon emissions (CE): positive but not significant ,no clear effect on ROE.</p>
+<p>ROE is strongly shaped by energy consumption, industry type, and location, while carbon emissions alone do not significantly drive profitability.</p>
+<p>Energy consumption (EC) matters more than carbon emissions (CE) for financial performance .</p>
+<p>ROE models are much stronger than ROA models shareholder returns are more sensitive to energy use and contextual factors (industry, location).</p>
+<p>ROA models have weak explanatory power or is not a strong fit any of thes factors.</p>
+</section>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">4. Conclusions</h2>
+<section id="roa-models" class="level3">
+<h3 class="anchored" data-anchor-id="roa-models"><strong>4.1 ROA Models</strong></h3>
+<p>Across all specifications, EC, CE, and ETOR showed no significant impact on ROA.</p>
+<p>ROA is weakly explained and seems largely independent of ESG-related metrics in this dataset.</p>
+</section>
+<section id="roe-models" class="level3">
+<h3 class="anchored" data-anchor-id="roe-models"><strong>4.2 ROE Models</strong></h3>
+<p>Without industry controls, log_EC and log_CE showed significant effects: higher energy consumption reduced profitability, while higher carbon emissions increased it (likely a firm-size effect).</p>
+<p>Once industries were included, EC and CE lost significance, while <strong>industry type emerged as the dominant driver of ROE.</strong></p>
+</section>
+<section id="overall-findings" class="level3">
+<h3 class="anchored" data-anchor-id="overall-findings"><strong>4.3 Overall Findings</strong></h3>
+<p><strong>ROA</strong>: Poorly explained by the available ESG variables; industry effects matter only marginally.</p>
+<p><strong>ROE</strong>: Strongly driven by EC which reduces the ROE.</p>
+<p>ESG factors like Energy Consumption, Carbon emission and Employee turnover rate plays only a small role in the companies selected in the data set.</p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
