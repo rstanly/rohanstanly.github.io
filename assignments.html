@@ -5,125 +5,161 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Assignments - My Assignment Blog</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* Background animation */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+      50% { background-position: 100% 50%; filter: hue-rotate(180deg); }
+      100% { background-position: 0% 50%; filter: hue-rotate(360deg); }
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-      color: #e0e0e0;
-      padding: 40px 20px;
+      font-family: "Poppins", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(270deg, #000, #111, #222, #333);
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease-in-out infinite;
+      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
 
     header {
       text-align: center;
-      margin-bottom: 50px;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 20px 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      margin-top: 60px;
+      animation: fadeIn 1.5s ease forwards;
     }
 
     h1 {
-      font-size: 2.2rem;
-      background: linear-gradient(90deg, #fff, #aaa);
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff, #aaaaaa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
     }
 
     p {
-      color: #bdbdbd;
+      color: #cccccc;
       font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
     }
 
     ul {
       list-style: none;
-      width: 100%;
-      max-width: 600px;
+      padding: 0;
+      width: 90%;
+      max-width: 700px;
+      animation: fadeIn 2s ease forwards;
     }
 
     li {
       background: rgba(255, 255, 255, 0.05);
       margin: 15px 0;
-      padding: 18px 25px;
-      border-radius: 14px;
-      backdrop-filter: blur(12px);
+      padding: 18px 22px;
+      border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
     }
 
     li:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 20px rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
     }
 
     a {
       text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #f5f5f5;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: color 0.3s ease;
+      color: white;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
 
     a:hover {
-      color: #d1d1d1;
-    }
-
-    a::after {
-      content: "↗";
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: all 0.3s ease;
-      color: #d1d1d1;
-    }
-
-    a:hover::after {
-      opacity: 1;
-      transform: translateX(5px);
+      color: #aaa;
     }
 
     nav {
-      margin-top: 40px;
+      margin-top: 30px;
       text-align: center;
+      animation: fadeIn 2.5s ease forwards;
     }
 
     nav a {
-      color: #fff;
-      text-decoration: none;
-      background: #000;
-      padding: 12px 24px;
+      border: 1.5px solid white;
       border-radius: 30px;
-      border: 1px solid #fff;
-      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
+      padding: 10px 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
     }
 
     nav a:hover {
-      transform: scale(1.05);
-      background: #fff;
-      color: #000;
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+      background: white;
+      color: #111;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      animation: fadeIn 3s ease forwards;
+    }
+
+    /* Floating glow particles */
+    .glow {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 8s linear infinite;
+    }
+
+    @keyframes float {
+      from { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      50% { opacity: 1; }
+      to { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    /* Smooth fade-in */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
+  <!-- Floating particles -->
+  <script>
+    const glowCount = 25;
+    for (let i = 0; i < glowCount; i++) {
+      const glow = document.createElement('div');
+      glow.className = 'glow';
+      glow.style.left = Math.random() * 100 + 'vw';
+      glow.style.animationDuration = (5 + Math.random() * 6) + 's';
+      glow.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(glow);
+    }
+  </script>
+
   <header>
     <h1>My Assignments</h1>
-    <p>Explore my projects and reports below — each crafted with data, design, and insight.</p>
+    <p>Here are my uploaded assignments. Click to view or download each one.</p>
   </header>
 
   <ul>
@@ -135,7 +171,11 @@
   </ul>
 
   <nav>
-    <a href="index.html">Back to Home</a>
+    <a href="index.html">← Back to Home</a>
   </nav>
+
+  <footer>
+    © 2025 My Assignment Blog
+  </footer>
 </body>
 </html>
