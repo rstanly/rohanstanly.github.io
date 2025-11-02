@@ -5,64 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Assignments - My Assignment Blog</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    /* Global Reset */
+    * {
       margin: 0;
-      padding: 20px;
-      background: #f4f7fb;
-      color: #333;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #e0e0e0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
     header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
+
     h1 {
-      color: #2575fc;
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
     }
+
+    p {
+      color: #aaa;
+      font-size: 1rem;
+    }
+
     ul {
       list-style: none;
-      padding: 0;
+      width: 100%;
+      max-width: 600px;
     }
+
     li {
-      background: white;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.08);
+      margin: 15px 0;
+      padding: 18px 25px;
+      border-radius: 14px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
+
+    li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 200, 255, 0.3);
+      border-color: rgba(0, 200, 255, 0.5);
+    }
+
     a {
       text-decoration: none;
-      color: #2575fc;
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #00c6ff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: color 0.3s ease;
     }
+
     a:hover {
-      text-decoration: underline;
+      color: #80d0ff;
     }
+
+    a::after {
+      content: "↗";
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+    }
+
+    a:hover::after {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+
     nav {
-      margin-top: 20px;
+      margin-top: 40px;
       text-align: center;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+      padding: 12px 24px;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 114, 255, 0.5);
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>📂 My Assignments</h1>
-    <p>Here are my uploaded assignments. Click to view/download.</p>
+    <h1>My Assignments</h1>
+    <p>Explore my projects and reports below — each crafted with data, design, and insight.</p>
   </header>
 
   <ul>
-    <li> <a href="Customer_Segmentation.html" target="_blank">Assignment 1: Customer Segmentation</a></li>
-    <li> <a href="Market_Basket_Analysis.html" target="_blank">Assignment 2: Market Baseket Analysis</a></li>
-    <li> <a href="Customer_Review_Analysis_Using_Text_Mining" target="_blank">Assignment 3: Customer Review Analysis</a></li>
-    <li> <a href="Final_Project" target="_blank">Assignment 4: ESG Performance Growth of Inidan Companies</a></li>
-    <li> <a href="SCMS.html" target="_blank">Supply Chain Management Systems (Report)</a></li>
+    <li><a href="Customer_Segmentation.html" target="_blank">Assignment 1: Customer Segmentation</a></li>
+    <li><a href="Market_Basket_Analysis.html" target="_blank">Assignment 2: Market Basket Analysis</a></li>
+    <li><a href="Customer_Review_Analysis_Using_Text_Mining.html" target="_blank">Assignment 3: Customer Review Analysis</a></li>
+    <li><a href="Final_Project.html" target="_blank">Assignment 4: ESG Performance Growth of Indian Companies</a></li>
+    <li><a href="SCMS.html" target="_blank">Supply Chain Management Systems (Report)</a></li>
   </ul>
 
   <nav>
-    <a href="index.html">⬅ Back to Home</a>
+    <a href="index.html">Back to Home</a>
   </nav>
 </body>
 </html>
-
-
-
