@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home - My Assignment Blog</title>
   <style>
     * {
@@ -12,48 +12,65 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-      color: #eaeaea;
+      font-family: "Poppins", sans-serif;
+      color: #e0e0e0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 40px 20px;
+      overflow: hidden;
+      text-align: center;
+      background: #000;
+      position: relative;
+    }
+
+    /* --- Animated Background Canvas --- */
+    canvas#bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: radial-gradient(circle at center, #0a0a0a, #000);
     }
 
     header {
-      text-align: center;
-      margin-bottom: 50px;
-      background: rgba(255, 255, 255, 0.05);
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px 60px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
-      padding: 25px 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      animation: fadeIn 1.5s ease;
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       background: linear-gradient(90deg, #fff, #aaa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
     }
 
     p {
       color: #bdbdbd;
       font-size: 1.1rem;
       max-width: 600px;
-      margin: 0 auto;
+      line-height: 1.6;
     }
 
     .buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 25px;
       margin-top: 50px;
+      z-index: 10;
+      animation: fadeUp 1.5s ease 0.3s both;
     }
 
     a.button {
@@ -61,33 +78,37 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
-      padding: 14px 30px;
-      border-radius: 30px;
+      padding: 14px 34px;
+      border-radius: 50px;
       font-size: 1.1rem;
       font-weight: 600;
+      letter-spacing: 0.5px;
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(255,255,255,0.05);
+      backdrop-filter: blur(6px);
     }
 
     a.button:hover {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.9);
       color: #000;
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(255,255,255,0.2);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
     }
 
     footer {
       position: fixed;
-      bottom: 15px;
+      bottom: 20px;
       text-align: center;
       width: 100%;
-      color: #888;
+      color: #777;
       font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      z-index: 10;
+      animation: fadeIn 2s ease 0.5s both;
     }
 
     footer a {
-      color: #bbb;
+      color: #999;
       text-decoration: none;
       transition: color 0.3s ease;
     }
@@ -95,23 +116,122 @@
     footer a:hover {
       color: #fff;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
+  <!-- Animated background -->
+  <canvas id="bg"></canvas>
+
   <header>
-    <h1>Welcome to My Assignment Blog</h1>
-    <p>A curated space for my academic projects, analytics reports, and marketing insights — all in one place.</p>
+    <h1>My Assignment Blog</h1>
+    <p>A curated archive of my academic work — cleanly presented, conceptually rich, and built for exploration.</p>
   </header>
 
   <div class="buttons">
-    <a href="assignments.html" class="button">Assignments</a>
+    <a href="assignments.html" class="button">View Assignments</a>
     <a href="about.html" class="button">About Me</a>
   </div>
 
   <footer>
     © 2025 My Assignment Blog · <a href="https://github.com/YOURUSERNAME">GitHub</a>
   </footer>
+
+  <script>
+    // Futuristic particle animation
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+
+    let particlesArray;
+    const numParticles = 100;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      init();
+    });
+
+    class Particle {
+      constructor(x, y, size, speedX, speedY) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.speedX = speedX;
+        this.speedY = speedY;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.6)";
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "white";
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      particlesArray = [];
+      for (let i = 0; i < numParticles; i++) {
+        const size = Math.random() * 2;
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const speedX = (Math.random() - 0.5) * 0.4;
+        const speedY = (Math.random() - 0.5) * 0.4;
+        particlesArray.push(new Particle(x, y, size, speedX, speedY));
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesArray.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      connect();
+      requestAnimationFrame(animate);
+    }
+
+    function connect() {
+      for (let a = 0; a < particlesArray.length; a++) {
+        for (let b = a; b < particlesArray.length; b++) {
+          const dx = particlesArray[a].x - particlesArray[b].x;
+          const dy = particlesArray[a].y - particlesArray[b].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 100) {
+            ctx.strokeStyle = "rgba(255,255,255,0.05)";
+            ctx.lineWidth = 0.3;
+            ctx.beginPath();
+            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    init();
+    animate();
+  </script>
 </body>
 </html>
-
 
