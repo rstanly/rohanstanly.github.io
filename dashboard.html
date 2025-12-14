@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Showcase: Enterprise Sales Dashboard with Local AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Modern CSS Variables */
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e293b;
+            --accent: #10b981;
+            --bg: #f8fafc;
+            --text: #334155;
+            --code-bg: #1e1e1e;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hero Section */
+        header {
+            background: linear-gradient(135deg, var(--primary), #1d4ed8);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        header h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 800; }
+        header p { font-size: 1.25rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-top: -40px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        /* Typography */
+        h2 { color: var(--secondary); margin-top: 50px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        h3 { color: var(--primary); margin-top: 30px; }
+        p { margin-bottom: 20px; }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature-card {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+        }
+        .feature-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
+        .feature-card h4 { margin: 0 0 10px 0; color: var(--secondary); }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+
+        /* Images */
+        .img-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+        img { 
+            width: 100%; 
+            max-width: 100%; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            border: 1px solid #e2e8f0;
+        }
+        .caption {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Badge */
+        .tech-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: #e0e7ff;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Sales Analytics Dashboard</h1>
+    <p>A Full-Stack Business Intelligence Tool Powered by Local AI (Ollama)</p>
+</header>
+
+<div class="container">
+
+    <div style="text-align: center; margin-bottom: 40px;">
+        <span class="tech-badge">Python Flask</span>
+        <span class="tech-badge">SQLite</span>
+        <span class="tech-badge">Chart.js</span>
+        <span class="tech-badge">Ollama (DeepSeek R1)</span>
+        <span class="tech-badge">HTML5/CSS3</span>
+    </div>
+
+    <h2><i class="fas fa-rocket"></i> Project Overview</h2>
+    <p>
+        In modern business, data visualization is often not enough. Managers need context—the "why" behind the numbers. 
+        This project is a <strong>Sales Analytics Dashboard</strong> that goes beyond static charts. It integrates a 
+        <strong>Local Large Language Model (LLM)</strong> directly into the application to act as a virtual data analyst.
+    </p>
+
+    <div class="img-container">
+        <img src="images/Dashboard_1.png" alt="Main Dashboard Overview">
+        <div class="caption">Figure 1: The main dashboard interface showing real-time KPIs, sales trends, and product mix.</div>
+    </div>
+
+    <h2><i class="fas fa-star"></i> Key Features</h2>
+    
+    <div class="feature-grid">
+        <div class="feature-card">
+            <i class="fas fa-brain"></i>
+            <h4>Local AI Integration</h4>
+            <p>Uses Ollama to run DeepSeek-R1 locally. Zero API costs, total data privacy, and works offline.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-chart-line"></i>
+            <h4>Interactive Visualization</h4>
+            <p>Dynamic Line and Doughnut charts powered by Chart.js that update instantly when filters change.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-database"></i>
+            <h4>Real-Time Data Management</h4>
+            <p>Built on SQLite with a custom data entry system. Add sales and see the KPIs update in milliseconds.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-file-alt"></i>
+            <h4>Automated Reporting</h4>
+            <p>Generates professional Markdown reports covering trends, risks, and strategies.</p>
+        </div>
+    </div>
+
+    <h2><i class="fas fa-robot"></i> The AI Workflow</h2>
+    <p>
+        The core innovation of this dashboard is the "AI Intelligence Report." When a user selects a product or date range, 
+        the Python backend aggregates the raw SQL data and constructs a prompt. This is sent to a local Ollama instance 
+        running the <strong>DeepSeek-R1</strong> model.
+    </p>
+
+    <div class="img-container">
+        <img src="images/Executive.png" alt="AI Executive Summary">
+        <div class="caption">Figure 2: The AI generates a 4-part strategic report (Summary, Trends, Risks, Recommendations) entirely offline.</div>
+    </div>
+
+    <h2><i class="fas fa-chart-bar"></i> Granular Analytics</h2>
+    <p>
+        Beyond the high-level overview, the dashboard allows for deep dives into specific product performance. 
+        Each item in the inventory has its own mini-chart to visualize individual sales velocity.
+    </p>
+
+    <div class="img-container">
+        <img src="images/Product_data.png" alt="Product Breakdown Charts">
+        <div class="caption">Figure 3: Individual sparklines for every product allow managers to spot micro-trends instantly.</div>
+    </div>
+
+    <h2><i class="fas fa-table"></i> Data Management</h2>
+    <p>
+        The application is backed by a robust SQLite database. Users can view the raw transaction history 
+        to verify data integrity and audit specific sales.
+    </p>
+
+    <div class="img-container">
+        <img src="images/tran.png" alt="Recent Transactions Table">
+        <div class="caption">Figure 4: The raw data view providing transparency into the last 100 transactions.</div>
+    </div>
+
+    <h2><i class="fas fa-code"></i> Technical Implementation</h2>
+    <p>
+        The connection between Flask and Ollama is handled via a simple REST API call. Here is the snippet 
+        that powers the AI generation:
+    </p>
+
+<pre>
+# Python Flask Backend connecting to Local Ollama
+payload = {
+    "model": "deepseek-r1:1.5b", 
+    "messages": [{"role": "user", "content": prompt}],
+    "max_tokens": 5000,
+    "temperature": 0.6,
+    "stream": False 
+}
+
+# Sending the request to localhost:11434
+resp = requests.post("http://localhost:11434/v1/chat/completions", json=payload)
+</pre>
+
+    <hr>
+    
+    <div style="text-align: center; margin-top: 40px;">
+        <h3>Conclusion</h3>
+        <p>
+            This project bridges the gap between traditional BI dashboards and modern Generative AI. 
+            By keeping the stack lightweight and local, it offers a robust, zero-cost solution for actionable business intelligence.
+        </p>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2025 Sales Dashboard Project. Built with Python & Ollama.</p>
+</footer>
+
+</body>
+</html>
